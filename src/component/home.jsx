@@ -10,11 +10,6 @@ import axios from "axios";
 import Button from "@material-ui/core/Button";
 
 class Home extends Component {
-  // state = {
-  //   user: null,
-  //   name: "",
-  //   recentTracks: null
-  // };
   constructor(props) {
     super(props);
     this.state = {
@@ -40,13 +35,13 @@ class Home extends Component {
         this.getLatestAlbum();
       })
       .catch(error => {
-        console.log(error);
+        // console.log(error);
         console.log("Error Catched");
       });
   };
 
   componentDidMount() {
-    this.getProfile();
+    // this.getProfile();
   }
 
   handleSubmit = event => {
@@ -69,7 +64,7 @@ class Home extends Component {
           this.state.user.name +
           "&api_key=" +
           process.env.REACT_APP_API +
-          "&format=json&limit=1&period=7day"
+          "&format=json&limit=1&period=6month"
       )
       .then(response => {
         console.log(response.data);
@@ -83,7 +78,7 @@ class Home extends Component {
         }
       })
       .catch(error => {
-        console.log(error);
+        // console.log(error);
         console.log("Error Catched");
       });
   };
@@ -139,7 +134,7 @@ class Home extends Component {
           <div>
             <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
               <Grid container justify="center" className="p-2">
-                <Grid item xs={12} lg={4}>
+                <Grid item xs={12} sm={6} lg={4}>
                   <TextField
                     id="name"
                     label="Username"
@@ -151,14 +146,22 @@ class Home extends Component {
                 </Grid>
               </Grid>
               <Grid container justify="center" className="p-2">
-                <Grid item xs={12} lg={4} style={{ textAlign: "center" }}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  lg={4}
+                  style={{ textAlign: "center" }}
+                >
                   <Button type="submit" value="Submit" variant="outlined">
                     Default
                   </Button>
                 </Grid>
+                <Grid item xs={12} style={{ textAlign: "center" }}>
+                  <p>User Not Found</p>
+                </Grid>
               </Grid>
             </form>
-            <p>User Not Found</p>
           </div>
         )}
         {this.state.user && (

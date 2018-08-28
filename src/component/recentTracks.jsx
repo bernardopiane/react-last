@@ -24,14 +24,14 @@ export class RecentTracks extends Component {
           this.state.user.name +
           "&api_key=" +
           process.env.REACT_APP_API +
-          "&format=json"
+          "&format=json&extended=1&limit=5"
       )
       .then(response => {
         console.log(response.data.recenttracks.track);
         this.setState({ recentTracks: response.data.recenttracks.track });
       })
       .catch(error => {
-        console.log(error);
+        // console.log(error);
         console.log("Error Catched");
       });
   };
