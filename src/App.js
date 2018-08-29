@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
+import "./App.css";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -12,8 +13,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Home from "./component/home";
-import "./App.css";
 import "typeface-roboto";
+import { TrackInfo } from "./component/trackInfo";
 
 // import { Divider } from "@material-ui/core";
 
@@ -84,6 +85,7 @@ class App extends Component {
             <Grid item xs={12} className="w-100">
               <Route exact path="/" component={Home} />
               <Route path="/about" component={About} />
+              <Route path="/track/:artist/:name" component={TrackInfo} />
             </Grid>
           </Grid>
         </div>

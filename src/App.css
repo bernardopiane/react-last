@@ -65,3 +65,9 @@ a {
 .p-5 {
   padding: 1.25rem;
 }
+
+.menu-text {
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  padding: 0.25em;
+}

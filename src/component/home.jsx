@@ -92,7 +92,8 @@ class Home extends Component {
               paddingTop: "5em",
               paddingBottom: "5em",
               backgroundImage: this.state.bgImage,
-              backgroundSize: "cover"
+              backgroundSize: "cover",
+              backgroundPosition: "center"
             }}
           >
             <Grid
@@ -167,7 +168,16 @@ class Home extends Component {
         {this.state.user && (
           <Grid container>
             <Grid item xs={12} sm={6} md={3}>
-              <RecentTracks user={this.state.user} />
+              <Paper elevation={1} style={{ margin: "1em" }}>
+                <Typography
+                  variant="headline"
+                  component="h3"
+                  className="menu-text"
+                >
+                  Recent Tracks
+                </Typography>
+                <RecentTracks user={this.state.user} />
+              </Paper>
             </Grid>
           </Grid>
         )}

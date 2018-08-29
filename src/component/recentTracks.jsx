@@ -3,6 +3,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ImgNotFound from "../img/notfound_placeholder.svg";
+// import TrackInfo from "./trackInfo";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import axios from "axios";
 
 export class RecentTracks extends Component {
@@ -39,9 +41,12 @@ export class RecentTracks extends Component {
   componentDidMount(props) {
     console.log(props);
     // this.setState({ user: props.user });
-
     this.getRecentTracks();
   }
+
+  goToTrackInfo = e => {
+    console.log(e);
+  };
 
   render() {
     return (
@@ -49,21 +54,30 @@ export class RecentTracks extends Component {
         <List>
           {this.state.recentTracks &&
             this.state.recentTracks.map(item => (
-              <ListItem key={item.name + item.artist["#text"]} dense button>
-                <img
-                  alt={item.name}
-                  src={
-                    item.image[0]["#text"] !== ""
-                      ? item.image[3]["#text"]
-                      : ImgNotFound
-                  }
-                  style={{ height: "5rem" }}
-                />
-                <ListItemText
-                  primary={item.name}
-                  secondary={item.album["#text"]}
-                />
-              </ListItem>
+              <Link
+                to={`/track/${item.artist["name"]}/${item.name}/${item.mbid}`}
+              >
+                <ListItem
+                  key={item.name + item.artist["#text"]}
+                  dense
+                  button
+                  onClick={e => this.goToTrackInfo(item)}
+                >
+                  <img
+                    alt={item.name}
+                    src={
+                      item.image[0]["#text"] !== ""
+                        ? item.image[3]["#text"]
+                        : ImgNotFound
+                    }
+                    style={{ height: "5rem" }}
+                  />
+                  <ListItemText
+                    primary={item.name}
+                    secondary={item.album["#text"]}
+                  />
+                </ListItem>
+              </Link>
             ))}
         </List>
       </div>
