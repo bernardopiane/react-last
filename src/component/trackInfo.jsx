@@ -7,6 +7,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import axios from "axios";
 import { Grid, Button } from "@material-ui/core";
+import SimilarTrack from "./similarTrack";
 
 export class TrackInfo extends Component {
   constructor(props) {
@@ -30,7 +31,7 @@ export class TrackInfo extends Component {
           "&format=json&autocorrect=1"
       )
       .then(response => {
-        console.log(response.data.track.album);
+        console.log(response.data.track);
         this.setState({ trackInfo: response.data.track });
       })
       .catch(error => {
@@ -53,28 +54,46 @@ export class TrackInfo extends Component {
       <div>
         <Grid container justify="center" style={{ textAlign: "center" }}>
           {this.state.trackInfo ? (
-            <Grid item xs={12} style={{ margin: "1em" }}>
+            <Grid item xs={12} md={8} style={{ margin: "1em" }}>
               <Paper elevation={1} className="p-2">
                 <Typography
                   variant="headline"
                   component="h3"
                   className="menu-text"
                 >
-                  {this.state.trackInfo.name}
+                  Track Info
                 </Typography>
-                <img
-                  className="p-5"
-                  alt={this.state.trackInfo.name}
-                  src={
-                    this.state.trackInfo.album === undefined
-                      ? ImgNotFound
-                      : this.state.trackInfo.album.image[0]["#text"] !== ""
-                        ? this.state.trackInfo.album.image[3]["#text"]
-                        : ImgNotFound
-                  }
-                  // style={{ height: "5rem" }}
-                />
+                <Grid container alignItems="center">
+                  <Grid item>
+                    <img
+                      xs={12}
+                      sm={4}
+                      className="p-5"
+                      alt={this.state.trackInfo.name}
+                      src={
+                        this.state.trackInfo.album === undefined
+                          ? ImgNotFound
+                          : this.state.trackInfo.album.image[0]["#text"] !== ""
+                            ? this.state.trackInfo.album.image[3]["#text"]
+                            : ImgNotFound
+                      }
+                      // style={{ height: "5rem" }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={7} md={8}>
+                    {this.state.trackInfo.name && (
+                      <p>Song: {this.state.trackInfo.name}</p>
+                    )}
+                    {this.state.trackInfo.artist && (
+                      <p>Artist: {this.state.trackInfo.artist.name}</p>
+                    )}
+                    {this.state.trackInfo.album && (
+                      <p>Artist: {this.state.trackInfo.album.title}</p>
+                    )}
+                  </Grid>
+                </Grid>
               </Paper>
+              <SimilarTrack trackInfo={this.state.trackInfo} />
             </Grid>
           ) : (
             <div>

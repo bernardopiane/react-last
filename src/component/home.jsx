@@ -5,10 +5,11 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { RecentTracks } from "./recentTracks";
-
 import axios from "axios";
 import Button from "@material-ui/core/Button";
 import { TopTracks } from "./topTracks";
+import { LocalTopTracks } from "./localTopTracks";
+import { WorldTopTracks } from "./worldTopTracks";
 
 export class Home extends Component {
   constructor(props) {
@@ -192,6 +193,30 @@ export class Home extends Component {
                   Weekly Top Tracks
                 </Typography>
                 <TopTracks user={this.state.user} />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Paper elevation={1} style={{ margin: "1em" }}>
+                <Typography
+                  variant="headline"
+                  component="h3"
+                  className="menu-text"
+                >
+                  Weekly Top Tracks
+                </Typography>
+                <LocalTopTracks user={this.state.user} />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Paper elevation={1} style={{ margin: "1em" }}>
+                <Typography
+                  variant="headline"
+                  component="h3"
+                  className="menu-text"
+                >
+                  Weekly Top Tracks
+                </Typography>
+                <WorldTopTracks user={this.state.user} />
               </Paper>
             </Grid>
           </Grid>

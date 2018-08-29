@@ -21,7 +21,7 @@ export class TopTracks extends Component {
           this.state.user.name +
           "&api_key=" +
           process.env.REACT_APP_API +
-          "&format=json&period=1month&limit=6"
+          "&format=json&period=1month&limit=5"
       )
       .then(response => {
         console.log(response.data.toptracks.track);
@@ -43,7 +43,7 @@ export class TopTracks extends Component {
     return (
       <div>
         <List>
-          {this.state.topTracks &&
+          {this.state.topTracks ? (
             this.state.topTracks.map(item => (
               <Link
                 key={item.name + item.artist["#text"]}
@@ -65,7 +65,10 @@ export class TopTracks extends Component {
                   />
                 </ListItem>
               </Link>
-            ))}
+            ))
+          ) : (
+            <h4 style={{ textAlign: "center" }}>Failed to retrieve</h4>
+          )}
         </List>
       </div>
     );

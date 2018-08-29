@@ -7,30 +7,23 @@ import ImgNotFound from "../img/notfound_placeholder.svg";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-export class RecentTracks extends Component {
+export class WorldTopTracks extends Component {
   constructor(props) {
     console.log(props);
     super(props);
     this.state = { user: props.user };
   }
 
-  //   state = {
-  //     user: null,
-  //     recentTracks: null
-  //   };
-
-  getRecentTracks = () => {
+  getWorldTracks = () => {
     axios
       .get(
-        "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=" +
-          this.state.user.name +
-          "&api_key=" +
+        "http://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&api_key=" +
           process.env.REACT_APP_API +
-          "&format=json&extended=1&limit=5"
+          "&format=json&limit=5"
       )
       .then(response => {
-        console.log(response.data.recenttracks.track);
-        this.setState({ recentTracks: response.data.recenttracks.track });
+        console.log(response.data);
+        this.setState({ WorldTracks: response.data.tracks.track });
       })
       .catch(error => {
         // console.log(error);
@@ -39,24 +32,18 @@ export class RecentTracks extends Component {
   };
 
   componentDidMount(props) {
-    console.log(props);
-    // this.setState({ user: props.user });
-    this.getRecentTracks();
+    this.getWorldTracks();
   }
-
-  goToTrackInfo = e => {
-    console.log(e);
-  };
 
   render() {
     return (
       <div>
         <List>
-          {this.state.recentTracks &&
-            this.state.recentTracks.map(item => (
+          {this.state.WorldTracks ? (
+            this.state.WorldTracks.map(item => (
               <Link
                 key={item.name + item.artist["#text"]}
-                to={`/track/${item.artist["name"]}/${item.name}`}
+                to={`/track/${item.artist["name"]}/${item.name}/${item.mbid}`}
               >
                 <ListItem dense button>
                   <img
@@ -70,11 +57,14 @@ export class RecentTracks extends Component {
                   />
                   <ListItemText
                     primary={item.name}
-                    secondary={item.album["#text"]}
+                    secondary={item.artist["name"]}
                   />
                 </ListItem>
               </Link>
-            ))}
+            ))
+          ) : (
+            <h4 style={{ textAlign: "center" }}>Failed to retrieve</h4>
+          )}
         </List>
       </div>
     );
