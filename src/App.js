@@ -12,7 +12,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Home from "./component/home";
+import { Home } from "./component/home";
 import "typeface-roboto";
 import { TrackInfo } from "./component/trackInfo";
 
@@ -25,6 +25,10 @@ const About = () => (
 );
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.child = React.createRef();
+  }
   state = {
     top: false,
     left: false,
@@ -76,8 +80,8 @@ class App extends Component {
               <Typography variant="title" color="inherit">
                 Home
               </Typography>
-              <Button color="inherit" className="appbar-right">
-                Login
+              <Button color="inherit" className="appbar-right" onClick={Logout}>
+                {localStorage.getItem("user") ? "Logout" : "Login"}
               </Button>
             </Toolbar>
           </AppBar>
@@ -92,6 +96,12 @@ class App extends Component {
       </Router>
     );
   }
+}
+
+function Logout() {
+  localStorage.clear("user");
+  localStorage.clear("name");
+  window.location.href = "/";
 }
 
 export default App;

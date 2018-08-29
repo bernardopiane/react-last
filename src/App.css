@@ -71,3 +71,13 @@ a {
   border-bottom: 1px solid #eee;
   padding: 0.25em;
 }
+
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 250ms ease-in;
+}

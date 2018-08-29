@@ -7,30 +7,25 @@ import ImgNotFound from "../img/notfound_placeholder.svg";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-export class RecentTracks extends Component {
+export class TopTracks extends Component {
   constructor(props) {
     console.log(props);
     super(props);
     this.state = { user: props.user };
   }
 
-  //   state = {
-  //     user: null,
-  //     recentTracks: null
-  //   };
-
-  getRecentTracks = () => {
+  gettopTracks = () => {
     axios
       .get(
-        "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=" +
+        "http://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=" +
           this.state.user.name +
           "&api_key=" +
           process.env.REACT_APP_API +
-          "&format=json&extended=1&limit=5"
+          "&format=json&period=1month&limit=6"
       )
       .then(response => {
-        console.log(response.data.recenttracks.track);
-        this.setState({ recentTracks: response.data.recenttracks.track });
+        console.log(response.data.toptracks.track);
+        this.setState({ topTracks: response.data.toptracks.track });
       })
       .catch(error => {
         // console.log(error);
@@ -41,19 +36,15 @@ export class RecentTracks extends Component {
   componentDidMount(props) {
     console.log(props);
     // this.setState({ user: props.user });
-    this.getRecentTracks();
+    this.gettopTracks();
   }
-
-  goToTrackInfo = e => {
-    console.log(e);
-  };
 
   render() {
     return (
       <div>
         <List>
-          {this.state.recentTracks &&
-            this.state.recentTracks.map(item => (
+          {this.state.topTracks &&
+            this.state.topTracks.map(item => (
               <Link
                 key={item.name + item.artist["#text"]}
                 to={`/track/${item.artist["name"]}/${item.name}/${item.mbid}`}
@@ -70,7 +61,7 @@ export class RecentTracks extends Component {
                   />
                   <ListItemText
                     primary={item.name}
-                    secondary={item.album["#text"]}
+                    secondary={item.artist["name"]}
                   />
                 </ListItem>
               </Link>

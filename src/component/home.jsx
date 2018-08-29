@@ -8,15 +8,17 @@ import { RecentTracks } from "./recentTracks";
 
 import axios from "axios";
 import Button from "@material-ui/core/Button";
+import { TopTracks } from "./topTracks";
 
-class Home extends Component {
+export class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
-      name: "",
+      user: JSON.parse(localStorage.getItem("user")),
+      name: localStorage.getItem("name"),
       recentTracks: null,
-      bgImage: null
+      bgImage: null,
+      notFound: false
     };
   }
 
@@ -32,7 +34,9 @@ class Home extends Component {
       .then(response => {
         // console.log(response);
         this.setState({ user: response.data.user });
-        this.getLatestAlbum();
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem("name", JSON.stringify(response.data.user.name));
+        window.location.href = "/";
       })
       .catch(error => {
         // console.log(error);
@@ -41,7 +45,9 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    // this.getProfile();
+    if (this.state.user) {
+      this.getLatestAlbum();
+    }
   }
 
   handleSubmit = event => {
@@ -116,12 +122,7 @@ class Home extends Component {
                         style={{ height: "8rem", width: "8rem" }}
                       />
                     </Grid>
-                    <Grid
-                      justify="end"
-                      item
-                      xs={6}
-                      style={{ textAlign: "center" }}
-                    >
+                    <Grid item xs={6} style={{ textAlign: "center" }}>
                       <Typography variant="title" gutterBottom>
                         {this.state.user.name}
                       </Typography>
@@ -158,9 +159,11 @@ class Home extends Component {
                     Default
                   </Button>
                 </Grid>
-                <Grid item xs={12} style={{ textAlign: "center" }}>
-                  <p>User Not Found</p>
-                </Grid>
+                {this.state.user === null && (
+                  <Grid item xs={12} style={{ textAlign: "center" }}>
+                    <p>User Not Found</p>
+                  </Grid>
+                )}
               </Grid>
             </form>
           </div>
@@ -179,11 +182,21 @@ class Home extends Component {
                 <RecentTracks user={this.state.user} />
               </Paper>
             </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Paper elevation={1} style={{ margin: "1em" }}>
+                <Typography
+                  variant="headline"
+                  component="h3"
+                  className="menu-text"
+                >
+                  Weekly Top Tracks
+                </Typography>
+                <TopTracks user={this.state.user} />
+              </Paper>
+            </Grid>
           </Grid>
         )}
       </div>
     );
   }
 }
-
-export default Home;
