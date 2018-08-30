@@ -61,7 +61,7 @@ class App extends Component {
               <List component="nav">
                 <Link to="/">
                   <ListItem button>
-                    <ListItemText primary="Trash" />
+                    <ListItemText primary="Homew" />
                   </ListItem>
                 </Link>
                 <Link to="/about">

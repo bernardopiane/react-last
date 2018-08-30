@@ -20,12 +20,15 @@ export class SimilarTrack extends Component {
   }
 
   getInfo = () => {
+    console.log(this.props);
+    this.setState({ artist: this.props.trackInfo.artist.name });
+    this.setState({ name: this.props.trackInfo.artist.name });
     axios
       .get(
         "http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist=" +
-          this.state.artist +
+          this.props.trackInfo.artist.name +
           "&track=" +
-          this.state.name +
+          this.props.trackInfo.name +
           "&api_key=" +
           process.env.REACT_APP_API +
           "&format=json&autocorrect=1"
@@ -42,6 +45,26 @@ export class SimilarTrack extends Component {
 
   componentDidMount(props) {
     this.getInfo();
+  }
+
+  changeState = (artist, name) => {
+    return new Promise((resolve, reject) => {
+      this.setState({
+        artist: artist,
+        name: name
+      });
+      resolve();
+    });
+  };
+
+  componentWillReceiveProps(props) {
+    console.log(props);
+
+    this.changeState(props.trackInfo.artist.name, props.trackInfo.name).then(
+      () => {
+        this.getInfo();
+      }
+    );
   }
 
   goBack = () => {
@@ -68,8 +91,10 @@ export class SimilarTrack extends Component {
                     {this.state.SimilarTrack ? (
                       this.state.SimilarTrack.map(item => (
                         <Link
-                          key={item.name + item.artist["#text"]}
-                          to={"/track/${item.artist.name}/${item.name}"}
+                          key={item.name + item.artist.name}
+                          artist={item.artist.name}
+                          name={item.name}
+                          to={`/track/${item.artist.name}/${item.name}`}
                         >
                           <ListItem dense button>
                             <img
@@ -105,7 +130,7 @@ export class SimilarTrack extends Component {
                   xs={12}
                   style={{ margin: "1em", textAlign: "center" }}
                 >
-                  Track Not Found
+                  Similar songs not found
                 </Grid>
               </Grid>
             </div>

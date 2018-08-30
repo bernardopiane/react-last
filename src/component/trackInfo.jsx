@@ -44,6 +44,40 @@ export class TrackInfo extends Component {
     this.getInfo();
   }
 
+  changeState = (artist, name) => {
+    return new Promise((resolve, reject) => {
+      this.setState({
+        artist: artist,
+        name: name
+      });
+      resolve();
+    });
+  };
+
+  componentWillReceiveProps(props) {
+    // this check makes sure that the getDashboardStats action is not getting called for other prop changes
+    // if(this.props.parkInfo !== nextProps.parkInfo){
+    //      this.props.getDashboardStats()
+    // }
+    console.log(this.state.name);
+
+    this.changeState(props.match.params.artist, props.match.params.name).then(
+      () => {
+        this.getInfo();
+      }
+    );
+  }
+
+  getSimilar = () => {
+    return (
+      <SimilarTrack
+        trackInfo={this.state.trackInfo}
+        artist={this.state.trackInfo.artist.name}
+        name={this.state.trackInfo.name}
+      />
+    );
+  };
+
   goBack = () => {
     console.log(this.props);
     this.props.history.goBack();
@@ -77,7 +111,6 @@ export class TrackInfo extends Component {
                             ? this.state.trackInfo.album.image[3]["#text"]
                             : ImgNotFound
                       }
-                      // style={{ height: "5rem" }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={7} md={8}>
@@ -93,7 +126,7 @@ export class TrackInfo extends Component {
                   </Grid>
                 </Grid>
               </Paper>
-              <SimilarTrack trackInfo={this.state.trackInfo} />
+              {this.getSimilar()}
             </Grid>
           ) : (
             <div>
