@@ -8,6 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Grid } from "@material-ui/core";
+import { Carousel } from "react-responsive-carousel";
+import styles from "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export class SimilarTrack extends Component {
   constructor(props) {
@@ -88,15 +90,15 @@ export class SimilarTrack extends Component {
                 </Typography>
                 <Grid container alignItems="center">
                   <List>
-                    {this.state.SimilarTrack ? (
-                      this.state.SimilarTrack.map(item => (
-                        <Link
-                          key={item.name + item.artist.name}
-                          artist={item.artist.name}
-                          name={item.name}
-                          to={`/track/${item.artist.name}/${item.name}`}
-                        >
-                          <ListItem dense button>
+                    <Carousel showThumbs={false} showIndicators={false}>
+                      {this.state.SimilarTrack ? (
+                        this.state.SimilarTrack.map(item => (
+                          <Link
+                            key={item.name + item.artist.name}
+                            artist={item.artist.name}
+                            name={item.name}
+                            to={`/track/${item.artist.name}/${item.name}`}
+                          >
                             <img
                               alt={item.name}
                               src={
@@ -104,20 +106,39 @@ export class SimilarTrack extends Component {
                                   ? item.image[3]["#text"]
                                   : ImgNotFound
                               }
-                              style={{ height: "5rem" }}
+                              //   style={{ height: "5rem" }}
                             />
-                            <ListItemText
-                              primary={item.name}
-                              secondary={item.artist["name"]}
-                            />
-                          </ListItem>
-                        </Link>
-                      ))
-                    ) : (
-                      <h4 style={{ textAlign: "center" }}>
-                        Failed to retrieve
-                      </h4>
-                    )}
+                            <p className="legend">{item.name}</p>
+                          </Link>
+                          // <Link
+                          //   key={item.name + item.artist.name}
+                          //   artist={item.artist.name}
+                          //   name={item.name}
+                          //   to={`/track/${item.artist.name}/${item.name}`}
+                          // >
+                          //   <ListItem dense button>
+                          //     <img
+                          //       alt={item.name}
+                          //       src={
+                          //         item.image[0]["#text"] !== ""
+                          //           ? item.image[3]["#text"]
+                          //           : ImgNotFound
+                          //       }
+                          //       style={{ height: "5rem" }}
+                          //     />
+                          //     <ListItemText
+                          //       primary={item.name}
+                          //       secondary={item.artist["name"]}
+                          //     />
+                          //   </ListItem>
+                          // </Link>
+                        ))
+                      ) : (
+                        <h4 style={{ textAlign: "center" }}>
+                          Failed to retrieve
+                        </h4>
+                      )}
+                    </Carousel>
                   </List>
                 </Grid>
               </Paper>

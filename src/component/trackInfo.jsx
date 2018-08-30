@@ -97,7 +97,7 @@ export class TrackInfo extends Component {
                 >
                   Track Info
                 </Typography>
-                <Grid container alignItems="center">
+                <Grid container justify="center" alignItems="center">
                   <Grid item>
                     <img
                       xs={12}
